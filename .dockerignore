@@ -1,0 +1,5 @@
+fly.toml
+.env
+/img
+/__pycache__
+/venv
