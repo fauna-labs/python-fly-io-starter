@@ -51,7 +51,7 @@ To launch the app on fly, run `flyctl launch` in the root directory of this proj
 You will be prompted for a few things:
 
 * `? Would you like to copy its configuration to the new app? (y/N)` **Choose y (Yes)**
-* `? Choose an app name (leaving blank will default to 'express-ts-fauna-starter')` **⚠️ Give it a new app name**
+* `? Choose an app name (leaving blank will default to 'python-fauna-starter')` **⚠️ Give it a new app name**
 * Choose an organization
   (You would be defaulted to the "personal" organization if it is the only option)
 * Would you like to set up a Postgresql database now? **Choose N (No)**
