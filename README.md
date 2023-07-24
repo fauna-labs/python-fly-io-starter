@@ -54,9 +54,9 @@ You will be prompted for a few things:
 * `? Choose an app name (leaving blank will default to 'python-fauna-starter')` **⚠️ Give it a new app name**
 * Choose an organization
   (You would be defaulted to the "personal" organization if it is the only option)
-* Would you like to set up a Postgresql database now? **Choose N (No)**
+* Would you like to set up a Postgresql database now? **Choose N (No). We're using Fauna as our database.**
 * Would you like to set up an Upstash Redis database now? **Choose N (No)**
-* Would you like to deploy now? **Choose N (No)**
+* Would you like to deploy now? **Choose N (No)** Don't deploy just yet, we need to set our secret key (see below)
 
 ```bash
 % flyctl launch
