@@ -54,31 +54,28 @@ You will be prompted for a few things:
 * `? Choose an app name (leaving blank will default to 'express-ts-fauna-starter')` **⚠️ Give it a new app name**
 * Choose an organization
   (You would be defaulted to the "personal" organization if it is the only option)
-* Would you like to set up a Postgresql database now? No
-* Would you like to set up an Upstash Redis database now? No
-* Would you like to deploy now? No
+* Would you like to set up a Postgresql database now? **Choose N (No)**
+* Would you like to set up an Upstash Redis database now? **Choose N (No)**
+* Would you like to deploy now? **Choose N (No)**
 
 ```bash
 % flyctl launch
-Creating app in /Users/zeekhoo/Projects/fauna/fly.io/python-fly-io-starter
+...
 An existing fly.toml file was found for app python-fauna-starter
 ? Would you like to copy its configuration to the new app? Yes
 Using build strategies '[a buildpack]'. Remove [build] from fly.toml to force a rescan
-? Choose an app name (leaving blank will default to 'python-fauna-starter') 
-automatically selected personal organization: Zee Khoo
+? Choose an app name (leaving blank will default to 'python-fauna-starter') <a-new-app-name>
+automatically selected personal organization: 'your-personal-organization'
 App will use 'sjc' region as primary
 
-Created app 'python-fauna-starter' in organization 'personal'
-Admin URL: https://fly.io/apps/python-fauna-starter
-Hostname: python-fauna-starter.fly.dev
+Created app '<a-new-app-name>' in organization 'personal'
+Admin URL: https://fly.io/apps/<a-new-app-name>
+Hostname: <a-new-app-name>.fly.dev
 ? Would you like to set up a Postgresql database now? No
 ? Would you like to set up an Upstash Redis database now? No
 Wrote config file fly.toml
 ? Would you like to deploy now? No
-Validating /Users/zeekhoo/Projects/fauna/fly.io/python-fly-io-starter/fly.toml
-Platform: machines
-✓ Configuration is valid
-Your app is ready! Deploy with `flyctl deploy`
+...
 ```
 
 Environment variables are not uploaded. Before deploying, you should set the Secrets value for FAUNA_SECRET_KEY: 
