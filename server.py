@@ -13,7 +13,7 @@ app = Flask(__name__)
 @app.route('/')
 def index():
     return json.dumps({
-        'greeting': 'Hello Fly'
+        'greeting': 'Hello python-fly-io-starter'
         })
 
 
