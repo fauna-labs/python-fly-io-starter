@@ -36,6 +36,18 @@ Activate venv
 source venv/bin/activate
 ```
 
+Source env variables
+```
+source .env
+```
+
+__Now, load some sample data (**Note**: This will be using the Fauna key from above, which should now be set in the `.env` file)__:
+```
+python scripts/run.py
+```
+
+
+
 Run Flask
 ```
 flask run
@@ -56,7 +68,7 @@ You will be prompted for a few things:
   (You would be defaulted to the "personal" organization if it is the only option)
 * Would you like to set up a Postgresql database now? **Choose N (No). We're using Fauna as our database.**
 * Would you like to set up an Upstash Redis database now? **Choose N (No)**
-* Would you like to deploy now? **Choose N (No)** Don't deploy just yet, we need to set our secret key (see below)
+* Would you like to deploy now? **Choose N (No). Don't deploy yet, we need to first set our secret key (see below)**
 
 ```bash
 % flyctl launch

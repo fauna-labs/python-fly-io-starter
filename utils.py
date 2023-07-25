@@ -1,7 +1,9 @@
 from fauna.errors import FaunaException, FaunaError, AuthenticationError, AuthorizationError, QueryRuntimeError, AbortError
+from fauna.encoding import QueryStats
+import os
 
-
-def generate_response(inputObject):
+def generate_response(data, stats: QueryStats):
+    print(stats)
     return {
         "statusCode": 200,
         "headers": {
@@ -9,7 +11,16 @@ def generate_response(inputObject):
             "Access-Control-Allow-Origin": "*",
             "Access-Control-Allow-Methods": "OPTIONS,POST,GET,PUT"
         },
-        "body": inputObject
+        "flyStats": {
+            "usingFlyRegion": os.getenv('FLY_REGION', 'unknown')
+        },
+        "faunaStats": {
+            "query_time_ms": stats.query_time_ms,            
+            "compute_ops": stats.compute_ops,
+            "read_ops": stats.read_ops,
+            "write_ops": stats.write_ops,
+        },
+        "data": data
     }
 
 def generate_error_response(err):    
