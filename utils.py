@@ -1,3 +1,6 @@
+# Copyright Fauna, Inc.
+# SPDX-License-Identifier: MIT-0
+
 from fauna.errors import FaunaException, FaunaError, AuthenticationError, AuthorizationError, QueryRuntimeError, AbortError
 from fauna.encoding import QueryStats
 import os

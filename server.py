@@ -1,4 +1,7 @@
-from flask import Flask, Response
+# Copyright Fauna, Inc.
+# SPDX-License-Identifier: MIT-0
+
+from flask import Flask
 import os, json
 from fauna import fql
 from fauna.client import Client

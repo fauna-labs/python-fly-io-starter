@@ -1,3 +1,6 @@
+# Copyright Fauna, Inc.
+# SPDX-License-Identifier: MIT-0
+
 import os
 from fauna import fql
 from fauna.client import Client
