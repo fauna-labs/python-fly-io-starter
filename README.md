@@ -36,6 +36,11 @@ Activate venv
 source venv/bin/activate
 ```
 
+Install requirements
+```
+pip install -r requirements.txt
+```
+
 Source env variables
 ```
 source .env
@@ -43,7 +48,7 @@ source .env
 
 __Now, load some sample data (**Note**: This will be using the Fauna key from above, which should now be set in the `.env` file)__:
 ```
-python scripts/run.py
+python sample/load.py
 ```
 
 
