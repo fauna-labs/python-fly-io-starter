@@ -35,6 +35,6 @@ def read():
                 }
                 """)
         res: QuerySuccess = client.query(q)
-        return utils.generate_response(res.data.data, res.stats)
+        return utils.generate_response(res)
     except Exception as e:
         return utils.generate_error_response(e)

@@ -2,11 +2,16 @@
 # SPDX-License-Identifier: MIT-0
 
 from fauna.errors import FaunaException, FaunaError, AuthenticationError, AuthorizationError, QueryRuntimeError, AbortError
-from fauna.encoding import QueryStats
+from fauna.encoding import QuerySuccess, QueryStats
+from fauna import Page
 import os
 
-def generate_response(data, stats: QueryStats):
-    print(stats)
+def generate_response(res: QuerySuccess):
+    stats: QueryStats = res.stats
+    data = res.data
+    if type(res.data) == Page:
+          data = data.data
+
     return {
         "statusCode": 200,
         "headers": {

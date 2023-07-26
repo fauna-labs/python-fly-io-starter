@@ -1,7 +1,4 @@
-# Copyright Fauna, Inc.
-# SPDX-License-Identifier: MIT-0
-#
-# fly.toml app configuration file generated for python-fauna-starter on 2023-07-24T15:15:04-07:00
+# fly.toml app configuration file generated for python-fauna-starter on 2023-07-26T13:31:02-07:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
