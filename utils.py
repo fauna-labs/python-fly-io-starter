@@ -1,59 +1,52 @@
 # Copyright Fauna, Inc.
 # SPDX-License-Identifier: MIT-0
 
-from fauna.errors import FaunaException, FaunaError, AuthenticationError, AuthorizationError, QueryRuntimeError, AbortError
+from fauna.errors import (
+    FaunaError,
+    AbortError,
+)
 from fauna.encoding import QuerySuccess, QueryStats
 from fauna import Page
 import os
+
 
 def generate_response(res: QuerySuccess):
     stats: QueryStats = res.stats
     data = res.data
     if type(res.data) == Page:
-          data = data.data
+        data = data.data
 
-    return {
-        "statusCode": 200,
-        "headers": {
-            "Access-Control-Allow-Headers" : "Content-Type, Origin, X-Requested-With, Accept, Authorization, Access-Control-Allow-Methods, Access-Control-Allow-Headers, Access-Control-Allow-Origin",
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Methods": "OPTIONS,POST,GET,PUT"
-        },
-        "flyStats": {
-            "usingFlyRegion": os.getenv('FLY_REGION', 'unknown')
-        },
+    headers = {
+        "Access-Control-Allow-Headers": "Content-Type, Origin, X-Requested-With, Accept, Authorization, Access-Control-Allow-Methods, Access-Control-Allow-Headers, Access-Control-Allow-Origin",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "OPTIONS,POST,GET,PUT",
+    }
+    response = {
+        "flyStats": {"usingFlyRegion": os.getenv("FLY_REGION", "unknown")},
         "faunaStats": {
-            "query_time_ms": stats.query_time_ms,            
+            "query_time_ms": stats.query_time_ms,
             "compute_ops": stats.compute_ops,
             "read_ops": stats.read_ops,
             "write_ops": stats.write_ops,
         },
-        "data": data
+        "data": data,
     }
+    return response, 200, headers
 
-def generate_error_response(err):    
-    errorType = type(err)
+
+def generate_error_response(error: FaunaError):
+    code = error.status_code
+    responseBody = error.message
+
+    errorType = type(error)    
     if errorType == AbortError:
-        code = 400
-        responseBody = err.abort
-    elif errorType in (FaunaException, FaunaError, AuthenticationError, AuthorizationError):
-        code = err.args[0]
-        responseBody = err.args[1]
-    elif errorType == QueryRuntimeError:
-        code = err.args[0]
-        responseBody = err.query_info.summary
-    else:
-        code = 400
-        responseBody = err.args[0]
+        responseBody = error.abort
 
-    response = {
-        "statusCode": code,
-        "headers": {
-            "Access-Control-Allow-Headers" : "Content-Type, Origin, X-Requested-With, Accept, Authorization, Access-Control-Allow-Methods, Access-Control-Allow-Headers, Access-Control-Allow-Origin",
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Methods": "OPTIONS,POST,GET,PUT"
-        },
-        "body": responseBody
+    headers = {
+        "Access-Control-Allow-Headers": "Content-Type, Origin, X-Requested-With, Accept, Authorization, Access-Control-Allow-Methods, Access-Control-Allow-Headers, Access-Control-Allow-Origin",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "OPTIONS,POST,GET,PUT",
     }
+    response = {"body": responseBody}
 
-    return response 
+    return response, code, headers

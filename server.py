@@ -6,24 +6,25 @@ import os, json
 from fauna import fql
 from fauna.client import Client
 from fauna.encoding import QuerySuccess
+from fauna.errors import QueryRuntimeError, AuthorizationError
 import utils
 
 
-client = Client(secret=os.getenv('FAUNA_SECRET_KEY', 'unknown'))
+client = Client(secret=os.getenv("FAUNA_SECRET_KEY", "unknown"))
 
 app = Flask(__name__)
 
-@app.route('/')
+
+@app.route("/")
 def index():
-    return json.dumps({
-        'greeting': 'Hello python-fly-io-starter'
-        })
+    return json.dumps({"greeting": "Hello python-fly-io-starter"})
 
 
-@app.route('/read', methods=['GET'])
+@app.route("/read", methods=["GET"])
 def read():
     try:
-        q = fql("""
+        q = fql(
+            """
                 order.all() {
                   orderName: .name,
                   customer: .customer.firstName + " " + .customer.lastName,
@@ -33,7 +34,9 @@ def read():
                     quantity
                   }
                 }
-                """)
+                abort("abort abort!!!")
+                """
+        )
         res: QuerySuccess = client.query(q)
         return utils.generate_response(res)
     except Exception as e:
