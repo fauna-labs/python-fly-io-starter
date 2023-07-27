@@ -47,6 +47,6 @@ def generate_error_response(error: FaunaError):
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "OPTIONS,POST,GET,PUT",
     }
-    response = {"body": responseBody}
+    response = {"error": responseBody}
 
     return response, code, headers
