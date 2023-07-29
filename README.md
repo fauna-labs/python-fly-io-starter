@@ -6,7 +6,7 @@ This repository contains unofficial patterns, sample code, or tools to help deve
 
 *[Fauna](https://fauna.com/) is a distributed relational database with a document data model. Delivered as an API, Fauna is automatically configured – out of the box – as a three replica database with active-active write capability, making it a powerful complement to [Fly.io](https://fly.io/) in serving low latency reads and writes for dynamic global applications.*
 
-This starter kit provides a sample Fauna integration with Python and Flask, and configured to run on Fly.io
+This starter kit provides a sample Fauna integration with Python and Flask, and configured to run on Fly.io. Whether or not you plan to deploy on Fly, this sample should nevertheless provide a great Fauna example for Python/Flask.
 
 ---
 
@@ -46,7 +46,7 @@ Source env variables
 source .env
 ```
 
-__Now, load some sample data (**Note**: This will be using the Fauna key from above, which should now be set in the `.env` file)__:
+__Now, load some sample data__:
 ```
 python sample/load.py
 ```
