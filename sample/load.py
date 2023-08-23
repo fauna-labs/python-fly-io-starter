@@ -31,7 +31,7 @@ def create_document(collection, data):
         if collection == "product":
             postProcess = fql(
                 """
-                ${coll}.byId(newdoc.id).update({
+                ${coll}.byId(newdoc.id)!.update({
                   store: store.byId(newdoc.store)
                 })
                 """,
@@ -40,10 +40,10 @@ def create_document(collection, data):
         elif collection == "order":
             postProcess = fql(
                 """
-                ${coll}.byId(newdoc.id).update({
+                ${coll}.byId(newdoc.id)!.update({
                   customer: customer.byId(newdoc.customer),
                   creationDate: Time(newdoc.creationDate),
-                  orderProducts: newdoc.orderProducts.map(x=>{
+                  orderProducts: newdoc.orderProducts!.map(x=>{
                     Object.assign(x, { product: product.byId(x.product) })
                   })
                 })

@@ -33,8 +33,7 @@ def read():
                     quantity
                   }
                 }
-                abort("abort abort!!!")
-                """
+              """
         )
         res: QuerySuccess = client.query(q)
         return utils.generate_response(res)
