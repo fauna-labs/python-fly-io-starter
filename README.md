@@ -64,35 +64,36 @@ This should perform a read from the Fauna database you created and populated wit
 
 ## Deploy to Fly.io
 
-To launch the app on fly, run `flyctl launch` in the root directory of this project.
-You will be prompted for a few things:
+To launch the app on fly, run `fly launch --no-deploy` in the root directory of this project.
+You will be prompted for a couple things:
 
 * `? Would you like to copy its configuration to the new app? (y/N)` **Choose y (Yes)**
-* `? Choose an app name (leaving blank will default to 'python-fauna-starter')` **⚠️ Give it a new app name**
-* Choose an organization
-  (You would be defaulted to the "personal" organization if it is the only option)
-* Would you like to set up a Postgresql database now? **Choose N (No). We're using Fauna as our database.**
-* Would you like to set up an Upstash Redis database now? **Choose N (No)**
-* Would you like to deploy now? **Choose N (No). Don't deploy yet, we need to first set our secret key (see below)**
+* `? Do you want to tweak these settings before proceeding? (y/N)` **Choose N (No)**
 
 ```bash
-% flyctl launch
-...
+% fly launch --no-deploy
 An existing fly.toml file was found for app python-fauna-starter
 ? Would you like to copy its configuration to the new app? Yes
 Using build strategies '[a buildpack]'. Remove [build] from fly.toml to force a rescan
-? Choose an app name (leaving blank will default to 'python-fauna-starter') <a-new-app-name>
-automatically selected personal organization: 'your-personal-organization'
-App will use 'sjc' region as primary
+Creating app in <folder>/python-fly-io-starter
+We're about to launch your app on Fly.io. Here's what you're getting:
 
-Created app '<a-new-app-name>' in organization 'personal'
-Admin URL: https://fly.io/apps/<a-new-app-name>
-Hostname: <a-new-app-name>.fly.dev
-? Would you like to set up a Postgresql database now? No
-? Would you like to set up an Upstash Redis database now? No
+Organization: <your org name>           (fly launch defaults to the personal org)
+Name:         python-fauna-starter      (from your fly.toml)
+Region:       San Jose, California (US) (from your fly.toml)
+App Machines: shared-cpu-1x, 1GB RAM    (most apps need about 1GB of RAM)
+Postgres:     <none>                    (not requested)
+Redis:        <none>                    (not requested)
+
+? Do you want to tweak these settings before proceeding? No
+Created app 'python-fauna-starter' in organization 'personal'
+Admin URL: https://fly.io/apps/python-fauna-starter
+Hostname: python-fauna-starter.fly.dev
 Wrote config file fly.toml
-? Would you like to deploy now? No
-...
+Validating <folder>/python-fly-io-starter/fly.toml
+Platform: machines
+✓ Configuration is valid
+Your app is ready! Deploy with `flyctl deploy`
 ```
 
 Environment variables are not uploaded. Before deploying, you should set the Secrets value for FAUNA_SECRET_KEY: 
@@ -112,7 +113,7 @@ fly status
 
 Browse to your newly deployed application with the `fly open` command.
 ```
-% flyctl open
+% fly open
 
 Opening https://<a-new-app-name>.fly.dev
 ```
@@ -131,19 +132,25 @@ Currently, Fauna provides 2 choices of Regions Groups, US and EU. The table belo
 | EU                 | lhr, arn, fra         |
 | US                 | sjc, ord, iad         |
 
-Thus, if you created your database in the US region group, you can scale up your Fly app using this command:
+For example, let's say you created your Fauna database in the US Region Group. This starter kit is provided with a default [`fly.toml`](./fly.toml) file with `primary_region` set to `sjc`. Unless you edited this value, deploying this starter kit leaves you with your Fly app in `sjc`. To take full advantage of Fauna’s distributed footprint, add additional Fly machines in the other 2 regions closest to the Fauna replicas by running this command: 
 
 ```
-fly regions set sjc ord iad
+fly scale count 2 --region ord,iad
 ```
 
-Followed by this command:
+Then, run `fly scale show` to see where your app’s Machines are running. For example:
 
 ```
-fly scale count 3 --max-per-region=1
+$ fly scale show
+
+VM Resources for app: my-app-name
+
+Groups
+NAME    COUNT   KIND    CPUS    MEMORY  REGIONS
+app     3       shared  1       256 MB  iad,ord,sjc
 ```
 
-This would scale up the app to have 3 VMs, each in one of the specified Fly.io regions. There is nothing else that needs to be updated in the code or Fauna configuration, because Fauna automatically routes requests to the closest replica based on latency and availability. 
+There is nothing else that needs to be updated in the code or Fauna configuration, because Fauna automatically routes requests to the closest replica based on latency and availability. 
 
 
 
